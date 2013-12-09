@@ -1,0 +1,15 @@
+/bin
+/bin32
+/build
+/doc
+/lib
+/lib32
+/include
+/vcproj
+/config.cache
+/config.log
+/config/configStorage
+/.sconsign.dblite
+/.sconf_temp
+/config/*.pyc
+/misc/installer/Windows/UbiTrack_Installer.exe
