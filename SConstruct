@@ -18,7 +18,7 @@ opts = config.NoEnvOptions( 'config.cache', ARGUMENTS )
 Export( 'opts' )
 
 # add platform option
-opts.Add( 'PLATFORM', 'Platform configuration (x86 or x64)', 'x64' )
+opts.Add( 'PLATFORM', 'Platform configuration (x86, x64 or android)', 'x64' )
 if opts[ 'PLATFORM' ] not in [ 'x86', 'x64', 'android' ]:
 	print "Invalid value specified for option PLATFORM"
 	Exit( 1 )
@@ -155,8 +155,6 @@ masterEnv.Append(**global_settings)
 # save configuration values
 opts.Save( 'config.cache' )
 
-
-
 	
 # generate help text for command line
 Help( opts.GenerateHelpText() )
@@ -167,11 +165,15 @@ Help( opts.GenerateHelpText() )
 #
 
 # set build directory paths
-buildPath = "build"
-# look for enviroment variable CUSTOM_BUILD_PATH and set the build path if available
+# look for BUILD_PATH variable  and set the build path if available
 # can be used for example to speed up your build process using a ram drive
-if os.environ.has_key('CUSTOM_BUILD_PATH'):
-	buildPath = os.environ['CUSTOM_BUILD_PATH']
+opts.Add( 'BUILD_PATH', 'Build path for intermediate compiler output', 'build' )
+buildPathParent = os.path.dirname(os.path.abspath(opts[ 'BUILD_PATH' ]))
+
+if not os.path.exists(buildPathParent):
+	print 'build path "' + buildPathParent + '" does not exist'
+	Exit(1)
+buildPath = opts[ 'BUILD_PATH' ]
 
 buildPath = os.path.join( buildPath, platform_suffix )
 
