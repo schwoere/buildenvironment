@@ -26,15 +26,27 @@ You can compile Ubitrack for Windows, Linux and Android on the appropriate syste
 <TODO: WINDOWS>
 
 
-**Ubitrack-Compilation on Linux**
+**Ubitrack-Compilation for Linux/Android on Linux**
 
 Ubuntu is shipped with gcc and python pre-installed, to install Git and Scons, open up a terminal and type:
 
     sudo apt-get install git scons
 **Ubitrack-Compilation for Android on Linux**
 
+Android-NDK-Toolchain:
+
 In addition to scons, for the compilation of Ubitrack for Android we need to compile an Android standalone-toolchain.
-Therefore, you have to download the newest [Android-NDK](http://developer.android.com/tools/sdk/ndk/index.html) and extract it in a folder of your choice.
+Therefore, you have to download the Android-NDK. This HowTo will use a certain repository-files for the Boost-for-Android compilation, which needs the Android-NDK-Version 8e. If you are able to port Boost to Android on your own, feel free to download the newest [Android-NDK](http://developer.android.com/tools/sdk/ndk/index.html), otherwise please download [Android-NDK-Version-r8e](http://dl.google.com/android/ndk/android-ndk-r8e-linux-x86_64.tar.bz2), extract it in a folder of your choice, open up a terminal and change to appropriate directory where you extracted the android-ndk. In case of ndk-r8e:
+
+    cd ~/Downloads/android-ndk-r8e/
+Afterwards, just run the sh-script in the following way which will install the standalone-toolchain of the defined Android-API level (--platform=android-9) in the folder of your choice (install-dir=/home/\<username>/android/android-ndk-toolchain):
+
+    sh build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/far/android/android-ndk-toolchain --system=linux-x86_64
+    
+Android-SDK:
+
+In addition to the android-ndk-toolchain, we need the android-sdk for the compilation of Lapack which is described later on. Download and extract the [Android-SDK](http://developer.android.com/sdk/index.html) to a folder of your choice e.g. /home/\<username\>/android/.
+    
 
 ###2. Setting up buildenvironment
 Change your current directory to the folder where you want to clone ubitrack.
@@ -97,7 +109,7 @@ For Windows open a Git Console, change to the <ubitrack> and execute
 
     misc/setup/windows/addStandardModules.bat
 
-**Ubitrack-Compilation on Linux:**
+**Ubitrack-Compilation for Linux/Android on Linux:**
 
 In order to add all components, just execute the following script for linux:
 
@@ -204,18 +216,65 @@ In order to build Ubitrack for Android, you have to place BOOST, LAPACK and Open
 
 BOOST for Android:
 
-    mkdir -p android/boost
+Because there is no official BOOST for Android available, we will use a build-script from a certain repository which does porting for us. Therefore, clone the repository in a folder of your choice and run the build-android.sh script with the path to the extracted android-ndk-8e as argument. The script will download and compile boost.
 
-If you have placed the libraries in a different folder to < ubitrack >/external\_libraries, you have to specify the path where Ubitrack has to search for the libraries. This can be done by executing the following command in the < ubitrack > folder:
+    cd ~/Downloads/
+    git clone https://github.com/inetic/Boost-for-Android.git
+    cd Boost-for-Android/
+    sh build-android.sh ~/Downloads/android-ndk-r8e/
+
+After the successful compilation, you will find the compiled Boost-libraries in the \<boost\>\build\lib\ subfolder and include files in the \<boost\>\build\include\boost-\<boost-version\>\ -folder. Then, link or copy the files to your external\_libraries\android\boost directory:
+
+     cp -r build/lib /path/to/external_libraries/android/boost/
+     cp -r build/include/boost-1_53/ /path/to/external_libraries/android/boost/include/    
+
+LAPACK for Android:
+
+Similar to the compilation of Boost for Android, for Lapack we need to clone a certain repository. After that, we build the Android-library files with the previously downloaded Android-NDK which was downloaded to the ~/Downloads/android-ndk-r8e/ folder.
+
+    
+    cd ~/Downloads/
+    git clone https://github.com/simonlynen/android_libs.git
+    //android_libs/lapack folder was created
+    cd android-ndk-r8e/
+    //tells the ndk where to look for the lapack-project we want to compile
+    export NDK_PROJECT_PATH=~/Downloads/android_libs/lapack/
+    ./ndk-build
+
+After that, we can copy or link the Lapack-libraries from the android_libs/lapack/obj/local/armeabi-v7a folder to the created external\_libraries/android/lapack/bin directory.
+
+    cd /path/to/external_libraries/
+    mkdir -p android/lapack/lib/
+    cp -r ~/Downloads/android_libs/lapack/obj/local/armeabi-v7a/*.a android/lapack/lib/
+     
+OpenCV for Android:
+
+The last library we need for the Ubitrack for Android is OpenCV for Android which can be downloaded precompiled from the official [OpenCV-page](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder. Instead, you can compile and link OpenCV for Android on your own which will not be explained here. 
+
+    mkdir -p android/opencv/lib/
+    mkdir -p android/opencv/include/
+    cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/libs/armeabi-v7a/* android/opencv/lib/
+    cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/jni/include/* android/opencv/include/
+
+**Ubitrack-Compilation for Windows/Android/Linux:**
+
+If you have placed the libraries in a different folder to \<ubitrack\>/external\_libraries, you have to specify the path where Ubitrack has to search for the libraries. This can be done by executing the following command in the \<ubitrack\> folder:
+
+**Windows example**
+//TODO
+
 
     scons EXTERNAL_LIBRARIES=/home/user/path/to/all/external/libraries/
 
+**Linux example**
+
+    scons EXTERNAL_LIBRARIES=/home/user/path/to/all/external/libraries/
 
 Alternatively, you can execute
 
     scons
 
-and afterwards add the following line manually to the < ubitrack >/config.cache file:
+and afterwards add the following line manually to the \<ubitrack\>/config.cache file:
 
     EXTERNAL_LIBRARIES = '/home/user/path/to/all/external/libraries/'
 Note: The first time this document may be empty.
