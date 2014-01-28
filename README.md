@@ -33,7 +33,7 @@ Change your current directory to the folder where you want to clone ubitrack.
     cd ubitrack
 
 ###3. Adding additional components as submodules
-There are several compoments represented by repositories which can be added as submodules to ubitrack. These components have to be placed in the \<ubitrack\>/modules folder. Usually you will need utcore, utvision, utdataflow, utfacade, utcomponents and utvisioncomponents:
+There are several compoments represented by repositories which can be added as submodules to ubitrack. These components have to be placed in the  \<ubitrack\>/modules folder. Usually you will need utcore, utvision, utdataflow, utfacade, utcomponents and utvisioncomponents:
 
 <table>
   <tr>
@@ -73,7 +73,7 @@ There are several compoments represented by repositories which can be added as s
 </table>
 You can pick the submodules manually or alternatively add all existing components at once by executing a script.
 ####3.a Manually adding submodules
-This example will create the \<ubitrack>/module/utcore directory and add utcore as submodule.
+This example will create the \<ubitrack\>/module/utcore directory and add utcore as submodule.
 
     git submodule add https://github.com/Ubitrack/utcore.git modules/utcore
 
@@ -81,12 +81,13 @@ This example will create the \<ubitrack>/module/utcore directory and add utcore 
 ####3.b Automized adding submodules
 <scripts that will do that for you in {YourDirectory}/misc/setup/[windows|linux]>
 
+<dt>Linux:</dt>
 In order to add all components, just execute the following script for linux:
 
     sh misc/setup/linux/addStandardModules.sh
 
-
-For Windows open a Git Console, change to the \<ubitrack\> and execute
+<dt>Windows:</dt>
+For Windows open a Git Console, change to the < ubitrack > and execute
 
     misc/setup/windows/addStandardModules.bat
 
@@ -99,16 +100,18 @@ Mandatory
 
 - [Boost](http://www.boost.org/) (> 1.35)
 
-Optional
+Optional 
 
 - Lapack
+
 - [OpenCV](http://opencv.org/)
+
 - Glut (or [Freeglut](http://freeglut.sourceforge.net/))
 
 These libraries have to be downloaded and configured. In order to do that there exist 3 ways, the first one described in 4.1 offers ready-to-use download packages and uses the Ubitrack library finder, which needs all the libraries in one specific folder. 4.2 configures the libraries with the command line and in 4.3 each possible configuration and path is set manually by editing a textfile. 
 
 
-####4a Make use of the Ubitrack library finder
+####4.1 Make use of the Ubitrack library finder
 
 Ubitrack is able to find libraries which have a specific folder structure that looks like this:
 
@@ -126,8 +129,8 @@ An example would be:
 
 The Ubitrack library finder will take all library files in the "lib" and "lib_debug" folders and link to their paths. So you have to separate the release and debug libraries in different folders.
 
+<dt>Windows:</dt>
 
-Windows:
 
 You can download ready-to-use library packages for windows and extract them e.g. in the \<ubitrack\> folder:
 
@@ -139,33 +142,36 @@ This results in a structure that should look like this:
     <ubitrack>/external_libraries/windows_x64/
     <ubitrack>/external_libraries/windows_x86/
 
-Linux:
+
+<dt>Linux:</dt>
 
 If you haven't already done, yet, you can download and install BOOST, LAPACK and Freeglut with the terminal:
 
     sudo apt-get update
-    sudo apt-get install libboost-all-dev libblas-dev liblapack-dev freeglut3 freeglut3-dev
-As these libraries are installed to the /usr/lib/ and /usr/include folder, an easy way to result in the Ubitrack library finder required folder structure is to link from the external\_libraries folder to the /usr/local/include/.
-This example shows how it is done for linux\_x64-architecture:
+    sudo apt-get install libboost-all-dev libblas-dev liblapack-dev libopencv-dev freeglut3-dev
+As these libraries are installed to the /usr/lib/ folder, an easy way to result in the Ubitrack library finder required folder structure is to link from the external\_libraries folder to the /usr/local/include/. This example shows how it is done for linux\_x64-architecture:
 
     cd /path/to/external_libraries
     mkdir -p linux_x64/boost/lib/
     mkdir -p linux_x64/boost/include/
-    linux_x64
+
 
     //linking for boost
-    ln -s /usr/lib/libboost_filesystem.* boost/lib/
-    ln -s /usr/lib/libboost_program_options.* boost/lib/
-    ln -s /usr/lib/libboost_regex.* boost/lib/
-    ln -s /usr/lib/libboost_serialization.* boost/lib/
-    ln -s /usr/lib/libboost_system.* boost/lib/
-    ln -s /usr/lib/libboost_thread.* boost/lib/
+    ln -s /usr/lib/libboost_filesystem.* boost/include/lib/
+    ln -s /usr/lib/libboost_program_options.* boost/include/lib/
+    ln -s /usr/lib/libboost_regex.* boost/include/lib/
+    ln -s /usr/lib/libboost_serialization.* boost/include/lib/
+    ln -s /usr/lib/libboost_system.* boost/include/lib/
+    ln -s /usr/lib/libboost_thread.* boost/include/lib/
 
-    ln -s /usr/include/boost boost/include/
+    ln -s /usr/include/boost boost/include/include/
 
     //linking for lapack
     mkdir -p lapack/lib
-    ln -s /usr/lib/lapack/liblapack.* lapack/lib/
+    ln -s /usr/lib/lapack/liblapack.a lapack/lib/
+    ln -s /usr/lib/lapack/liblapack.so lapack/lib/
+    ln -s /usr/lib/lapack/libblas.a lapack/lib/
+    ln -s /usr/lib/lapack/llibblas.so lapack/lib/
 
     //linking for freeglut
     mkdir -p glut/lib
@@ -173,18 +179,13 @@ This example shows how it is done for linux\_x64-architecture:
     ln -s /usr/lib/x86_64-linux-gnu/libglut* glut/lib/
     ln -s /usr/include/GL/ glut/include/
 
-   
-For OpenCV have a look at the official Guide [OpenCV Installation in Linux](http://docs.opencv.org/doc/tutorials/introduction/linux_install/linux_install.html) or a special Ubuntu-Guide [OpenCV on Ubuntu](https://help.ubuntu.com/community/OpenCV). After that, the 
-libs and includes can be linked to the external\_libraries folder:
+For OpenCV have a look at the official Guide [OpenCV Installation in Linux](http://docs.opencv.org/doc/tutorials/introduction/linux_install/linux_install.html) or a special Ubuntu-Guide [OpenCV on Ubuntu](https://help.ubuntu.com/community/OpenCV). After that, the libraries and includes can be linked to the external\_libraries folder:
 
     //linking for opencv
     mkdir -p opencv/lib
-    ln -s /usr/local/lib/libopencv_* opencv/lib/
-    ln -s /usr/local/include/ opencv/
-    
+    mkdir -p opencv/include
 
-
-If you have placed the libraries in a different folder to \<ubitrack>/external\_libraries, you have to specify the path where Ubitrack has to search for the libraries. This can be done by executing the following command in the \<ubitrack\> folder:
+If you have placed the libraries in a different folder to < ubitrack >/external\_libraries, you have to specify the path where Ubitrack has to search for the libraries. This can be done by executing the following command in the < ubitrack > folder:
 
     scons EXTERNAL_LIBRARIES=/home/user/path/to/all/external/libraries/
 
@@ -193,23 +194,15 @@ Alternatively, you can execute
 
     scons
 
-and afterwards add the following line manually to the \<ubitrack\>/config.cache file:
+and afterwards add the following line manually to the < ubitrack >/config.cache file:
 
     EXTERNAL_LIBRARIES = '/home/user/path/to/all/external/libraries/'
 Note: The first time this document may be empty.
 
 
 Taking similar steps, you can easily extend Ubitrack with additional libraries for your own need.
-If you want to make sure the libraries are found by the Ubitrack library finder, you can have a look at the files in the \<ubitrack\>/config/configStorage folder and
-check their content, which is explained in 4.3. If the paths are not detected, a solution can be to delete the \<ubitrack\>/config/configStorage folder and re-run scons
-with e.g.
 
-    scons EXTERNAL_LIBRARIES=/home/user/path/to/all/external/libraries/
-
-
-####4b Configure the libraries using command line options and library finder
-
-
+####4.2 Configure the libraries using command line options and library finder
 
 In this option the library configuration is done by appending parameters to a scons call similar to the previous section. This method gives you the ability to define your own library-folder structure as you may have already installed some of the libraries in different directories. Just like in the previous section, you can write the paramerters into a \<ubitrack\>\config.cache document, alternatively.
 
@@ -217,68 +210,85 @@ The basic syntax for these parameters looks like this:
 
     {LIBNAME}_{PARAMERTER}_{PLATFORM}_{CONFIGURATION}
 
-
 Examples:
 
     {LIBNAME}: 
+
      - BOOST, OPENCV, LAPACK, GLUT
 
+
+
     {PARAMETER}: 
+
     - INCLUDEPATH (path to include files)
+
     - LIBPATH (path to library files)
+
     - LIBS (comma separated list of library files to link against)
+
     - DEFINES (C++ defines passed to the compiler )
 
+
+
     {PLATFORM}: 
+
     - x64 (64bit)
+
     - x86 (32bit)
+
     - android (armeabi-v7a)
 
+
+
     {CONFIGURATION}:
+
     - RELEASE (in this case empty) 
+
     - DEBUG
 
 Full Examples for library configurations by a scons call:
 
     scons BOOST_LIBPATH=/path/to/boost/lib
+
     scons BOOST_LIBPATH_DEBUG=/path/to/boost/lib_debug
+
     scons BOOST_LIBPATH_X86_DEBUG=/path/to/boost/x64/debug
+
     scons BOOST_LIBPATH_ANDROID=/path/to/boost/android/lib
+
     scons OPENCV_LIBS="opencv_stitching242.lib, opencv_legacy242.lib"
 
-####4c Set everything by hand
+####4.3 Set everything by hand
 
-Run 
+Run the scons command once. After that the library configurations are stored in \<ubitrack\>/config/configStorage. Edit the files and set Include/Library Paths and Libraries to link against. 
 
-    scons 
-once. After that the library configurations are stored in \<ubitrack\>/config/configStorage. Edit the files and set Include/Library Paths and Libraries to link against. 
+Set havelib to true
 
-Set "havelib" to "true" and add "HAVE_{LIBNAME}" to CPPDEFINES.
+add "HAVE_{LIBNAME}" to CPPDEFINES
 
 Example:
 
-    [x64_release]
-    havelib = true
-    cpppath = ["path/to/freeglut/include"]
-    libpath = ["path/to/freeglut/lib/x64"]
-    libs = ["freeglut.lib"]
-    cppdefines = ["HAVE_GLUT"]
+[x64_release]
+havelib = true
+cpppath = ["C:\\Libraries\\freeglut\\freeglut-2.8.0\\include"]
+libpath = ["C:\\Libraries\\freeglut\\freeglut-2.8.0\\lib\\x64"]
+libs = ["freeglut.lib"]
+cppdefines = ["HAVE_GLUT"]
 
 ###5. Compile Ubitrack
-In order to compile ubitrack make sure, that your current directory of the terminal is your \<ubitrack\> folder and execute
+Run:
 
     scons install-all
+Speed up the build process for parallel builds:
+
+    scons install-all -j{NumProcessors} 
+Clean the build by calling:
+
+    scons -c
 You can see all command line parameters by calling:
 
     scons -h
 
-Clean the entire build by calling:
-
-    scons -c
-
-You can speed up the build process with parallel builds:
-    scons -j{NumProcessors}
-
-To create a Visual Studio Project execute:
+Create a Visual Studio Project:
 
     scons vcproj

@@ -1,17 +1,11 @@
 buildenvironment
-
 ================
-
-
 
 Clone this repository if you want to build Ubitrack from the source code.
 
 All other repositories are added as submodules to this repository
 
-
-
 How to build Ubitrack
-
 ---------------------
 
 ###1. Required tools
