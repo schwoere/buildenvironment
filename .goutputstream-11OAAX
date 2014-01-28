@@ -1,0 +1,102 @@
+buildenvironment
+================
+
+Clone this repository if you want to build Ubitrack from the source code.
+
+All other repositories are added as submodules to this repository
+
+How to build Ubitrack
+---------------------
+
+###1. Required tools
+In order to build ubitrack the following tools have to be installed:
+
+- Git
+
+- C++ Compiler like gcc or MSVC
+
+- Python (at least Version 2.7, e.g. [PythonXY](http://code.google.com/p/pythonxy/)  )
+
+- [Scons](http://www.scons.org/)
+
+You can compile Ubitrack for Windows, Linux and Android on the appropriate system. However, the cross-compilation for Android is only possible on Linux. If there are any differences to the compilation for the Linux, they are explained in the appropriate Linux sections.
+
+
+###1.1 How to install build-tools
+<TODO: WINDOWS>
+
+
+**Ubitrack-Compilation on Linux**
+
+Ubuntu is shipped with gcc and python pre-installed, to install Git and Scons, open up a terminal and type:
+
+    sudo apt-get install git scons
+**Ubitrack-Compilation for Android on Linux**
+
+In addition to scons, for the compilation of Ubitrack for Android we need to compile an Android standalone-toolchain.
+Therefore, you have to download the newest [Android-NDK](http://developer.android.com/tools/sdk/ndk/index.html) and extract it in a folder of your choice.
+
+###2. Setting up buildenvironment
+Change your current directory to the folder where you want to clone ubitrack.
+
+    git clone https://github.com/Ubitrack/buildenvironment.git ubitrack
+    cd ubitrack
+
+###3. Adding additional components as submodules
+There are several components represented by repositories which can be added as submodules to ubitrack. These components have to be placed in the  \<ubitrack\>/modules folder. Usually you will need utcore, utvision, utdataflow, utfacade, utcomponents and utvisioncomponents:
+
+<table>
+  <tr>
+    <th>Component</th><th>Description</th><th>Repository</th>
+  </tr>
+  <tr>
+    <td>utvisualization</td><td>contains a standalone 3D rendering module. Mostly for quick visualizations and debugging</td><td>https://github.com/Ubitrack/utvisualization.git</td>
+  </tr>
+  <tr>
+     <td>utvisioncomponents</td><td>contains algorithms working on (mostly) camera images.</td><td>https://github.com/Ubitrack/utvisioncomponents.git</td>
+  </tr>
+
+  <tr>
+     <td>utfacade</td><td>contains frontend adapters for ubitrack dataflow networks. Also contains the utConsole.</td><td>https://github.com/Ubitrack/utfacade.git</td>
+  </tr>
+
+  <tr>
+     <td>utdataflow</td><td>contains the dataflow network and related graph methods.</td><td>https://github.com/Ubitrack/utdataflow.git</td>
+  </tr>
+
+  <tr>
+     <td>utcore</td><td>contains fundamental datastructures and algorithms. Needed by all other modules.</td><td>https://github.com/Ubitrack/utcore.git</td>
+  </tr>
+
+  <tr>
+     <td>utcomponents</td><td>contains basic dataflow modules. These cover most common tracking and registration cases.</td><td>https://github.com/Ubitrack/utvisioncomponents.git</td>
+  </tr>
+
+  <tr>
+     <td>directshow</td><td>contains MS Windows specific directshow framegrabber</td><td>https://github.com/Ubitrack/directshow.git</td>
+  </tr>
+
+  <tr>
+     <td>buildenvironment</td><td> contains general build scripts </td><td>https://github.com/Ubitrack/utvisualization.git</td>
+  </tr>
+
+</table>
+You can pick the submodules manually or alternatively add all existing components at once by executing a script.
+####3.a Manually adding submodules
+This example will create the \<ubitrack\>/module/utcore directory and add utcore as submodule.
+
+    git submodule add https://github.com/Ubitrack/utcore.git modules/utcore
+
+
+####3.b Automized adding submodules
+<scripts that will do that for you in {YourDirectory}/misc/setup/[windows|linux]>
+
+**Ubitrack-Compilation for Windows:**
+
+For Windows open a Git Console, change to the <ubitrack> and execute
+
+    misc/setup/windows/addStandardModules.bat
+
+**Ubitrack-Compilation on Linux:**
+
+In order to add all components, just execute the following scrip

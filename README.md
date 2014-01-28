@@ -19,12 +19,22 @@ In order to build ubitrack the following tools have to be installed:
 
 - [Scons](http://www.scons.org/)
 
+You can compile Ubitrack for Windows, Linux and Android on the appropriate system. However, the cross-compilation for Android is only possible on Linux. If there are any differences to the compilation for the Linux, they are explained in the appropriate Linux sections.
 
 
-###1.1 How to install build-tools on Ubuntu
+###1.1 How to install build-tools
+<TODO: WINDOWS>
+
+
+**Ubitrack-Compilation on Linux**
+
 Ubuntu is shipped with gcc and python pre-installed, to install Git and Scons, open up a terminal and type:
 
     sudo apt-get install git scons
+**Ubitrack-Compilation for Android on Linux**
+
+In addition to scons, for the compilation of Ubitrack for Android we need to compile an Android standalone-toolchain.
+Therefore, you have to download the newest [Android-NDK](http://developer.android.com/tools/sdk/ndk/index.html) and extract it in a folder of your choice.
 
 ###2. Setting up buildenvironment
 Change your current directory to the folder where you want to clone ubitrack.
@@ -33,7 +43,7 @@ Change your current directory to the folder where you want to clone ubitrack.
     cd ubitrack
 
 ###3. Adding additional components as submodules
-There are several compoments represented by repositories which can be added as submodules to ubitrack. These components have to be placed in the  \<ubitrack\>/modules folder. Usually you will need utcore, utvision, utdataflow, utfacade, utcomponents and utvisioncomponents:
+There are several components represented by repositories which can be added as submodules to ubitrack. These components have to be placed in the  \<ubitrack\>/modules folder. Usually you will need utcore, utvision, utdataflow, utfacade, utcomponents and utvisioncomponents:
 
 <table>
   <tr>
@@ -81,15 +91,19 @@ This example will create the \<ubitrack\>/module/utcore directory and add utcore
 ####3.b Automized adding submodules
 <scripts that will do that for you in {YourDirectory}/misc/setup/[windows|linux]>
 
-<dt>Linux:</dt>
+**Ubitrack-Compilation for Windows:**
+
+For Windows open a Git Console, change to the <ubitrack> and execute
+
+    misc/setup/windows/addStandardModules.bat
+
+**Ubitrack-Compilation on Linux:**
+
 In order to add all components, just execute the following script for linux:
 
     sh misc/setup/linux/addStandardModules.sh
 
-<dt>Windows:</dt>
-For Windows open a Git Console, change to the < ubitrack > and execute
 
-    misc/setup/windows/addStandardModules.bat
 
 
 
@@ -119,7 +133,7 @@ Ubitrack is able to find libraries which have a specific folder structure that l
     <LibrariesDirectory>/[linux|windows|android]_[x64|x86]/LibraryName/[bin|include|lib|lib_debug]. 
 
 
-An example would be:
+An example for windows would be:
 
     external_libraries/windows_x64/boost
     external_libraries/windows_x64/boost/include
@@ -129,7 +143,7 @@ An example would be:
 
 The Ubitrack library finder will take all library files in the "lib" and "lib_debug" folders and link to their paths. So you have to separate the release and debug libraries in different folders.
 
-<dt>Windows:</dt>
+**Ubitrack-Compilation for Windows:**
 
 
 You can download ready-to-use library packages for windows and extract them e.g. in the \<ubitrack\> folder:
@@ -143,7 +157,7 @@ This results in a structure that should look like this:
     <ubitrack>/external_libraries/windows_x86/
 
 
-<dt>Linux:</dt>
+**Ubitrack-Compilation for Linux on Linux:**
 
 If you haven't already done, yet, you can download and install BOOST, LAPACK and Freeglut with the terminal:
 
@@ -184,6 +198,13 @@ For OpenCV have a look at the official Guide [OpenCV Installation in Linux](http
     //linking for opencv
     mkdir -p opencv/lib
     mkdir -p opencv/include
+**Ubitrack-Compilation for Android on Linux:**
+
+In order to build Ubitrack for Android, you have to place BOOST, LAPACK and OpenCV for Android in the external\_libraires\android folder.
+
+BOOST for Android:
+
+    mkdir -p android/boost
 
 If you have placed the libraries in a different folder to < ubitrack >/external\_libraries, you have to specify the path where Ubitrack has to search for the libraries. This can be done by executing the following command in the < ubitrack > folder:
 
