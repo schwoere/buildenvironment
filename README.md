@@ -19,6 +19,8 @@ In order to build ubitrack the following tools have to be installed:
 
 - [Scons](http://www.scons.org/)
 
+- cmake (only required for Ubitrack for Android)
+
 You can compile Ubitrack for Windows, Linux and Android on the appropriate system. However, the cross-compilation for Android is only possible on Linux. If there are any differences to the compilation for the Linux, they are explained in the appropriate Linux sections.
 
 
@@ -249,24 +251,43 @@ After that, we can copy or link the Lapack-libraries from the android_libs/lapac
      
 OpenCV for Android:
 
-The last library we need for the Ubitrack for Android is OpenCV for Android which can be downloaded precompiled from the official [OpenCV-page](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder. Instead, you can compile and link OpenCV for Android on your own which will not be explained here. 
+<The last library we need for the Ubitrack for Android is OpenCV for Android which can be downloaded precompiled from the official [OpenCV-page](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder. Instead, you can compile and link OpenCV for Android on your own which will not be explained here.>
 
+The last library we need for the Ubitrack for Android is OpenCV for Android. Similar to the previous external\_libraries, clone and compile OpenCV4Android in the following way:
+
+NOTE: For further information or if any problems occur have a look at the official [Building OpenCV4Android-Guide](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk).
+
+    cd ~/Downloads/
+    git clone git://code.opencv.org/opencv.git
+    //opencv folder was created
+    
+    //path to the previously compiled android-standalone-toolchain, here ~/android/android-standalone-toolchain
+    export ANDROID_STANDALONE_TOOLCHAIN=~/android/android-ndk-toolchain/
+    cd opencv/platforms
+    sh ./scripts/cmake_android_arm.sh
+    cd build_android_arm
+    make -j2
+
+    cd path/to/external_libraries/
     mkdir -p android/opencv/lib/
     mkdir -p android/opencv/include/
-    cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/libs/armeabi-v7a/* android/opencv/lib/
-    cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/jni/include/* android/opencv/include/
+    cp -r  ~/Downloads/opencv/platforms/build_android_arm/lib/armeabi-v7a/* android/opencv/lib/
+    cp -r  ~/Downloads/opencv/include/* linux_android/opencv/include/
+
+
+<cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/libs/armeabi-v7a/* android/opencv/lib/>
+<cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/jni/include/* android/opencv/include/>
 
 **Ubitrack-Compilation for Windows/Android/Linux:**
 
 If you have placed the libraries in a different folder to \<ubitrack\>/external\_libraries, you have to specify the path where Ubitrack has to search for the libraries. This can be done by executing the following command in the \<ubitrack\> folder:
 
-**Windows example**
-//TODO
-
+**Windows example:**
+<TODO>
 
     scons EXTERNAL_LIBRARIES=/home/user/path/to/all/external/libraries/
 
-**Linux example**
+**Linux example:**
 
     scons EXTERNAL_LIBRARIES=/home/user/path/to/all/external/libraries/
 
@@ -275,22 +296,29 @@ Alternatively, you can execute
     scons
 
 and afterwards add the following line manually to the \<ubitrack\>/config.cache file:
-
-    EXTERNAL_LIBRARIES = '/home/user/path/to/all/external/libraries/'
 Note: The first time this document may be empty.
+
+**Windows example:**
+<TODO>
+
+    EXTERNAL_LIBRARIES = '/home/user/path/to/all/external_libraries/'
+
+**Linux example:**
+
+    EXTERNAL_LIBRARIES = '/home/user/path/to/all/external_libraries/'
 
 
 Taking similar steps, you can easily extend Ubitrack with additional libraries for your own need.
 
 ####4.2 Configure the libraries using command line options and library finder
 
-In this option the library configuration is done by appending parameters to a scons call similar to the previous section. This method gives you the ability to define your own library-folder structure as you may have already installed some of the libraries in different directories. Just like in the previous section, you can write the paramerters into a \<ubitrack\>\config.cache document, alternatively.
+In this option the library configuration is done by appending parameters to a scons call similar to the previous section. This method gives you the ability to define your own library-folder structure as you may have already installed some of the libraries in different directories. Just like in the previous section, you can write the paramerters into a \<ubitrack\>\config.cache document, alternatively. For the library files, have a look at section 4.1. 
 
 The basic syntax for these parameters looks like this:
 
     {LIBNAME}_{PARAMERTER}_{PLATFORM}_{CONFIGURATION}
 
-Examples:
+**Examples:**
 
     {LIBNAME}: 
 
@@ -326,7 +354,7 @@ Examples:
 
     - DEBUG
 
-Full Examples for library configurations by a scons call:
+**Full Examples for library configurations by a scons call:**
 
     scons BOOST_LIBPATH=/path/to/boost/lib
 
@@ -346,19 +374,25 @@ Set havelib to true
 
 add "HAVE_{LIBNAME}" to CPPDEFINES
 
-Example:
+**Example:**
 
-[x64_release]
-havelib = true
-cpppath = ["C:\\Libraries\\freeglut\\freeglut-2.8.0\\include"]
-libpath = ["C:\\Libraries\\freeglut\\freeglut-2.8.0\\lib\\x64"]
-libs = ["freeglut.lib"]
-cppdefines = ["HAVE_GLUT"]
+    [x64_release]
+    havelib = true
+    cpppath = ["C:\\Libraries\\freeglut\\freeglut-2.8.0\\include"]
+    libpath = ["C:\\Libraries\\freeglut\\freeglut-2.8.0\\lib\\x64"]
+    libs = ["freeglut.lib"]
+    cppdefines = ["HAVE_GLUT"]
 
 ###5. Compile Ubitrack
-Run:
+
+For the compilation of Ubitrack for Windows/Linux run:
 
     scons install-all
+For the compilation of Ubitrack for Android you have to specify the android-platform once. This configuration will stay until it is changed by e.g. PLATFORM=x64.
+
+    scons PLATFORM=android
+    scons install-all
+
 Speed up the build process for parallel builds:
 
     scons install-all -j{NumProcessors} 
