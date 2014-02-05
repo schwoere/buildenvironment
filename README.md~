@@ -19,9 +19,9 @@ In order to build ubitrack the following tools have to be installed:
 
 - [Scons](http://www.scons.org/)
 
-- cmake (only required for Ubitrack for Android)
+- cmake (only required for building OpenCV for Android)
 
-You can compile Ubitrack for Windows, Linux and Android on the appropriate system. However, the cross-compilation for Android is only possible on Linux. If there are any differences to the compilation for the Linux, they are explained in the appropriate Linux sections.
+You can compile Ubitrack for Windows, Linux and Android on the appropriate system. However, the cross-compilation for Android is only possible on Linux. If there are any differences to the compilation for Linux, they are explained in the appropriate section.
 
 
 ###1.1 How to install build-tools
@@ -228,26 +228,32 @@ Because there is no official BOOST for Android available, we will use a build-sc
     cd ~/Downloads/
     git clone https://github.com/inetic/Boost-for-Android.git
     cd Boost-for-Android/
-    sh build-android.sh ~/Downloads/android-ndk-r8e/
+    sh build-android.sh ~/Downloads/android-ndk-r8e/ --with-libraries=date_time,filesystem,iostreams,program_options,regex,serialization,signals,system,thread
 
-After the successful compilation, you will find the compiled Boost-libraries in the \<boost\>\build\lib\ subfolder and include files in the \<boost\>\build\include\boost-\<boost-version\>\ -folder. Then, link or copy the files to your external\_libraries\android\boost directory:
+After the successful compilation, you will find the Boost-libraries in the \<boost\>\build\lib\ subfolder and header files in the \<boost\>\build\include\boost-\<boost-version\>\ -folder. Then, create the external\_libraries\linux\_android\boost "include" and "lib"-folder:
+
+    mkdir -p linux_android/boost/include
+    mkdir -p linux_android/boost/lib
+Afterwards link or copy the files to your these new folders:
 
 <cp -r build/lib /path/to/external_libraries/linux_android/boost/>
 
-    //copy and rename libraries to libboost_%libname%-mt.a
+    //change to the directory where Boost have been downloaded
+    cd ~/Downloads/Boost-for-Android/
 
-    cp -r build/lib/libboost_date_time-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_time-mt.a
-    cp -r build/lib/libboost_filesystem-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_filesystem-mt.a
-    cp -r build/lib/libboost_iostreams-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_iostreams-mt.a
-    cp -r build/lib/libboost_program_options-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_program_options-mt.a
-    cp -r build/lib/libboost_regex-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_regex-mt.a
-    cp -r build/lib/libboost_serialization-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_serialization-mt.a
-    cp -r build/lib/libboost_signals-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_signals-mt.a
-    cp -r build/lib/libboost_system-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_system-mt.a
-    cp -r build/lib/libboost_thread-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_thread-mt.a
-    cp -r build/lib/libboost_wserialization-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_wserialization-mt.a
+    //copy and rename libraries to fit: libboost_%libname%-mt.a
+    cp -r build/lib/libboost_date_time-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_time-mt.a
+    cp -r build/lib/libboost_filesystem-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_filesystem-mt.a
+    cp -r build/lib/libboost_iostreams-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_iostreams-mt.a
+    cp -r build/lib/libboost_program_options-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_program_options-mt.a
+    cp -r build/lib/libboost_regex-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_regex-mt.a
+    cp -r build/lib/libboost_serialization-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_serialization-mt.a
+    cp -r build/lib/libboost_signals-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_signals-mt.a
+    cp -r build/lib/libboost_system-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_system-mt.a
+    cp -r build/lib/libboost_thread-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_thread-mt.a
+    cp -r build/lib/libboost_wserialization-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_wserialization-mt.a
 
-    cp -r build/include/boost-1_53/ /path/to/external_libraries/linux_android/boost/include/   
+    cp -r build/include/boost-1_53/* /path/to/external_libraries/linux_android/boost/include/   
 
 
 LAPACK for Android:
