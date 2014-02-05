@@ -232,8 +232,23 @@ Because there is no official BOOST for Android available, we will use a build-sc
 
 After the successful compilation, you will find the compiled Boost-libraries in the \<boost\>\build\lib\ subfolder and include files in the \<boost\>\build\include\boost-\<boost-version\>\ -folder. Then, link or copy the files to your external\_libraries\android\boost directory:
 
-     cp -r build/lib /path/to/external_libraries/linux_android/boost/
-     cp -r build/include/boost-1_53/ /path/to/external_libraries/linux_android/boost/include/    
+<cp -r build/lib /path/to/external_libraries/linux_android/boost/>
+
+    //copy and rename libraries to libboost_%libname%-mt.a
+
+    cp -r build/lib/libboost_date_time-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_time-mt.a
+    cp -r build/lib/libboost_filesystem-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_filesystem-mt.a
+    cp -r build/lib/libboost_iostreams-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_iostreams-mt.a
+    cp -r build/lib/libboost_program_options-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_program_options-mt.a
+    cp -r build/lib/libboost_regex-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_regex-mt.a
+    cp -r build/lib/libboost_serialization-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_serialization-mt.a
+    cp -r build/lib/libboost_signals-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_signals-mt.a
+    cp -r build/lib/libboost_system-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_system-mt.a
+    cp -r build/lib/libboost_thread-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_thread-mt.a
+    cp -r build/lib/libboost_wserialization-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/libboost_wserialization-mt.a
+
+    cp -r build/include/boost-1_53/ /path/to/external_libraries/linux_android/boost/include/   
+
 
 LAPACK for Android:
 
@@ -256,8 +271,6 @@ After that, we can copy or link the Lapack-libraries from the android_libs/lapac
      
 OpenCV for Android:
 
-<The last library we need for the Ubitrack for Android is OpenCV for Android which can be downloaded precompiled from the official [OpenCV-page](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder. Instead, you can compile and link OpenCV for Android on your own which will not be explained here.>
-
 The last library we need for the Ubitrack for Android is OpenCV for Android. Similar to the previous external\_libraries, clone and compile OpenCV4Android in the following way:
 
 NOTE: For further information or if any problems occur have a look at the official [Building OpenCV4Android-Guide](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk).
@@ -272,12 +285,14 @@ NOTE: For further information or if any problems occur have a look at the offici
     sh ./scripts/cmake_android_arm.sh
     cd build_android_arm
     make -j2
+    make install
 
     cd path/to/external_libraries/
-    mkdir -p android/opencv/lib/
-    mkdir -p android/opencv/include/
-    cp -r  ~/Downloads/opencv/platforms/build_android_arm/lib/armeabi-v7a/* android/opencv/lib/
-    cp -r  ~/Downloads/opencv/include/* linux_android/opencv/include/
+    mkdir -p linux_android/opencv/lib/
+    mkdir -p linux_android/opencv/include/
+    cp -r ~/Downloads/opencv/platforms/build_android_arm/install/sdk/native/libs/armeabi-v7a/* linux_android/opencv/lib/
+    cp -r ~/Downloads/opencv/platforms/build_android_arm/install/sdk/native/3rdparty/libs/armeabi-v7a/* linux_android/opencv/lib/
+    cp -r ~/Downloads/opencv/platforms/build_android_arm/install/sdk/native/jni/include/* linux_android/opencv/include/
 
 
 <cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/libs/armeabi-v7a/* android/opencv/lib/>

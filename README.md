@@ -271,7 +271,22 @@ After that, we can copy or link the Lapack-libraries from the android_libs/lapac
      
 OpenCV for Android:
 
-The last library we need for the Ubitrack for Android is OpenCV for Android. Similar to the previous external\_libraries, clone and compile OpenCV4Android in the following way:
+The last library we need for the Ubitrack for Android is OpenCV for Android. Therefore exist two possibilities: In a. the prebuilds which can be downloaded from the official OpenCV webpage are used and b. describes how to compile OpenCV4Android from source and and which of the build libraries have to be copied.
+
+a. Using OpenCV for Android prebuilds
+Download the precompiled libraires from the official [OpenCV-page](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder:
+
+    cd path/to/external_libraries/
+    mkdir -p linux_android/opencv/lib/
+    mkdir -p linux_android/opencv/include/
+    cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/libs/armeabi-v7a/* linux_android/opencv/lib/
+
+    cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/3rdparty/libs/armeabi-v7a/* linux_android/opencv/lib/
+    cp -r ~/Downloads/OpenCV-2.4.8-android-sdk/sdk/native/jni/include/* linux_android/opencv/include/
+
+b. Building OpenCV for Android
+
+Similar to the previous external\_libraries, clone and compile OpenCV4Android in the following way:
 
 NOTE: For further information or if any problems occur have a look at the official [Building OpenCV4Android-Guide](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk).
 
