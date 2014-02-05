@@ -312,7 +312,7 @@ Taking similar steps, you can easily extend Ubitrack with additional libraries f
 
 ####4.2 Configure the libraries using command line options and library finder
 
-In this option the library configuration is done by appending parameters to a scons call similar to the previous section. This method gives you the ability to define your own library-folder structure as you may have already installed some of the libraries in different directories. Just like in the previous section, you can write the paramerters into a \<ubitrack\>\config.cache document, alternatively. For the library files, have a look at section 4.1. 
+In this option the library configuration is done by appending parameters to a scons call similar to the previous section. This method gives you the ability to define your own library-folder structure as you may already have installed some of the libraries in different directories. Just like in the previous section, you can write the paramerters into a \<ubitrack\>\config.cache document, alternatively. For how to get/install the library files, have a look at section 4.1. 
 
 The basic syntax for these parameters looks like this:
 
