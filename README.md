@@ -38,13 +38,18 @@ Ubuntu is shipped with gcc and python pre-installed, to install Git and Scons, o
 Android-NDK-Toolchain:
 
 In addition to scons, for the compilation of Ubitrack for Android we need to compile an Android standalone-toolchain.
-Therefore, you have to download the Android-NDK. This HowTo will use a certain repository-files for the Boost-for-Android compilation, which needs the Android-NDK-Version 8e. If you are able to port Boost to Android on your own, feel free to download the newest [Android-NDK](http://developer.android.com/tools/sdk/ndk/index.html), otherwise please download [Android-NDK-Version-r8e](http://dl.google.com/android/ndk/android-ndk-r8e-linux-x86_64.tar.bz2), extract it in a folder of your choice, open up a terminal and change to appropriate directory where you extracted the android-ndk. In case of ndk-r8e:
+Therefore, you have to download the Android-NDK. This HowTo will use a certain repository-files for the Boost-for-Android compilation, which needs the Android-NDK-Version 8e. If you are able to port Boost to Android on your own, feel free to download the newest [Android-NDK](http://developer.android.com/tools/sdk/ndk/index.html), otherwise please download [Android-NDK-Version-r8e-64-bit](http://dl.google.com/android/ndk/android-ndk-r8e-linux-x86_64.tar.bz2) or [Android-NDK-Version-r8e-32-bit](http://dl.google.com/android/ndk/android-ndk-r8e-linux-x86.tar.bz2) according to your Linux architecture. Afterwards, extract the downloaded archive file in a folder of your choice, open up a terminal and change to appropriate directory where you extracted the android-ndk. In case of ndk-r8e:
 
     cd ~/Downloads/android-ndk-r8e/
 Afterwards, just run the sh-script in the following way which will install the standalone-toolchain of the defined Android-API level (--platform=android-9) in the folder of your choice (install-dir=/home/\<username>/android/android-ndk-toolchain):
+For a 64-bit architecture run the following script:
 
-    sh build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/far/android/android-ndk-toolchain --system=linux-x86_64
-    
+    sh build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=$HOME/android/android-ndk-toolchain --system=linux-x86_64
+
+And for a 32-bit architecture:
+
+    sh build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=$HOME/android/android-ndk-toolchain 
+
 Android-SDK:
 
 In addition to the android-ndk-toolchain, we need the android-sdk for the compilation of Lapack which is described later on. Download and extract the [Android-SDK](http://developer.android.com/sdk/index.html) to a folder of your choice e.g. /home/\<username\>/android/.
@@ -214,7 +219,7 @@ For OpenCV have a look at the official Guide [OpenCV Installation in Linux](http
     mkdir -p opencv/include
 **Ubitrack-Compilation for Android on Linux:**
 
-In order to build Ubitrack for Android, you have to place BOOST, LAPACK and OpenCV for Android in the external\_libraires\android folder.
+In order to build Ubitrack for Android, you have to place BOOST, LAPACK and OpenCV for Android in the external\_libraries\linux\_android folder.
 
 BOOST for Android:
 
@@ -227,8 +232,8 @@ Because there is no official BOOST for Android available, we will use a build-sc
 
 After the successful compilation, you will find the compiled Boost-libraries in the \<boost\>\build\lib\ subfolder and include files in the \<boost\>\build\include\boost-\<boost-version\>\ -folder. Then, link or copy the files to your external\_libraries\android\boost directory:
 
-     cp -r build/lib /path/to/external_libraries/android/boost/
-     cp -r build/include/boost-1_53/ /path/to/external_libraries/android/boost/include/    
+     cp -r build/lib /path/to/external_libraries/linux_android/boost/
+     cp -r build/include/boost-1_53/ /path/to/external_libraries/linux_android/boost/include/    
 
 LAPACK for Android:
 
