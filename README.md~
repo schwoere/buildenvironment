@@ -25,7 +25,23 @@ You can compile Ubitrack for Windows, Linux and Android on the appropriate syste
 
 
 ###1.1 How to install build-tools
-<TODO: WINDOWS>
+
+**Ubitrack-Compilation for Windows:**
+
+Download [PythonXY](http://code.google.com/p/pythonxy/), [Scons](http://www.scons.org/) and [Git](http://git-scm.com/download/win) from the official website, install them and make sure they are working and added to your system-path by opening a console and typing:
+
+    scons
+Windows should respond in the following way:
+
+    scons: *** No SConstruct file found.
+    File "C:\Program Files (x86)\Python 2.7\Scripts\..\Lib\site-packages\scons-2.3.0\SCons\Script\Main.py", line 905, in _main
+Doing the similar with git
+
+    git --version
+sould be answered with something like:
+
+
+    git version 1.8.5.2.msysgit.0
 
 
 **Ubitrack-Compilation for Linux/Android on Linux**
@@ -56,7 +72,8 @@ In addition to the android-ndk-toolchain, we need the android-sdk for the compil
     
 
 ###2. Setting up buildenvironment
-Change your current directory to the folder where you want to clone ubitrack.
+
+With terminal or command of your operating system, change your current directory to the folder where you want to clone ubitrack and run:
 
     git clone https://github.com/Ubitrack/buildenvironment.git ubitrack
     cd ubitrack
@@ -112,9 +129,9 @@ This example will create the \<ubitrack\>/module/utcore directory and add utcore
 
 **Ubitrack-Compilation for Windows:**
 
-For Windows open a Git Console, change to the <ubitrack> and execute
+For Windows open a Git- or Command-Console, change to the <ubitrack> and execute
 
-    misc/setup/windows/addStandardModules.bat
+    misc\setup\windows\addStandardModules.bat
 
 **Ubitrack-Compilation for Linux/Android on Linux:**
 
@@ -141,7 +158,7 @@ Optional
 
 - Glut (or [Freeglut](http://freeglut.sourceforge.net/))
 
-These libraries have to be downloaded and configured. In order to do that there exist 3 ways, the first one described in 4.1 offers ready-to-use download packages and uses the Ubitrack library finder, which needs all the libraries in one specific folder. 4.2 configures the libraries with the command line and in 4.3 each possible configuration and path is set manually by editing a textfile. 
+These libraries have to be downloaded and configured. In order to do that, there exist three possible ways, the first one described in 4.1 offers ready-to-use download packages and uses the Ubitrack library finder. The Ubitrack library finder needs all the libraries in one specific folder. 4.2 configures the libraries by the command line and in 4.3 each possible configuration and path is manually set by editing a textfile. 
 
 
 ####4.1 Make use of the Ubitrack library finder
@@ -154,31 +171,46 @@ Ubitrack is able to find libraries which have a specific folder structure that l
 
 An example for windows would be:
 
-    external_libraries/windows_x64/boost
-    external_libraries/windows_x64/boost/include
-    external_libraries/windows_x64/boost/lib
-    external_libraries/windows_x64/boost/lib_debug
+    external_libraries\windows_x64\boost
+    external_libraries\windows_x64\boost\include
+    external_libraries\windows_x64\boost\lib
+    external_libraries\windows_x64\boost\lib_debug
      
 
 The Ubitrack library finder will take all library files in the "lib" and "lib_debug" folders and link to their paths. So you have to separate the release and debug libraries in different folders.
 
 **Ubitrack-Compilation for Windows:**
 
-
-You can download ready-to-use library packages for windows and extract them e.g. in the \<ubitrack\> folder:
+If you are running Windows with Visual Studio 10, you can download the following ready-to-use library packages and extract them e.g. in the  \<ubitrack\> folder:
 
 - [Minimal (Boost and Lapack)](http://campar.in.tum.de/personal/pankratz/UbiTrack/external_libraries_min.zip)
 - [All (Boost,Lapack, OpenCV, Freeglut)](http://campar.in.tum.de/personal/pankratz/UbiTrack/external_libraries_all.zip)
 
 This results in a structure that should look like this:
     
-    <ubitrack>/external_libraries/windows_x64/
-    <ubitrack>/external_libraries/windows_x86/
+    <ubitrack>\external_libraries\windows_x64\
+    <ubitrack>\external_libraries\windows_x86\
+
+However, if you have a different version to Visual Studio 10, you can use Lapack, OpenCV and Freeglut from the archive file above. For older versions of Visual Studio, have a look at the prebuilds which are can be downloaded at [PointClouds](http://pointclouds.org/downloads/windows.html) and copy the library files in the appropriate directories as shown after the explanation of the Boost-Build process. For Visual Studio 11 you have to compile Boost on your own:
+Therefore, downloaded [Boost](http://www.boost.org/) and extract it in a folder of your choice, e.g. C:\Boost.
+Start your "Developer Command Prompt for VS" and change to the Boost-Library location:
+
+    cd C:\Boost
+    //build Boost in the current directory
+    bootstrap
+    b2 toolset=msvc --build-type=complete stage
+
+After the compilation, you have to copy the header, library and dlls to the approproate directories. In case of Windows 64-bit, this will result in the folder-structure:
+
+    <ubitrack>\external_libraries\windows_x86\bin\*.dll
+    <ubitrack>\external_libraries\windows_x86\include\boost\*.hpp
+    <ubitrack>\external_libraries\windows_x86\lib\*.lib
+    <ubitrack>\external_libraries\windows_x86\lib_debug\*-gd-*.lib
 
 
 **Ubitrack-Compilation for Linux on Linux:**
 
-If you haven't already done, yet, you can download and install BOOST, LAPACK and Freeglut with the terminal:
+If you have not already done, yet, you can download and install BOOST, LAPACK and Freeglut with the terminal:
 
     sudo apt-get update
     sudo apt-get install libboost-all-dev libblas-dev liblapack-dev libopencv-dev freeglut3-dev
@@ -281,7 +313,7 @@ The last library we need for the Ubitrack for Android is OpenCV for Android. The
 
 a. Using OpenCV for Android prebuilds
 
-Download the precompiled libraires from the official [OpenCV-page](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder:
+Download the precompiled libraires from the official [OpenCV-Website](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder:
 
     cd path/to/external_libraries/
     mkdir -p linux_android/opencv/lib/
