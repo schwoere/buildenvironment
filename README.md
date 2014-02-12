@@ -188,14 +188,6 @@ This results in a structure that should look like this:
     <ubitrack>\external_libraries\windows_x86\
 
 However, if you have a different version to Visual Studio 10, you can use Lapack, OpenCV and Freeglut from the archive file above. For Visual Studio, have a look at the prebuilds which are can be downloaded from the official [Boost-Website](http://sourceforge.net/projects/boost/files/boost-binaries/). Alternatively, you can have a look at [PointClouds](http://pointclouds.org/downloads/windows.html). After you have downloaded and extracted Boost, you have to copy the header, library and dlls to the approproate directories. In case of Windows 64-bit, Boost 1.5.5 and Visual Studio 11.0, this can be done in the following way:
-First, you have to create the following directory structure:
-
-    <ubitrack>\external_libraries\windows_x86\bin\
-    <ubitrack>\external_libraries\windows_x86\include\
-    <ubitrack>\external_libraries\windows_x86\lib\
-    <ubitrack>\external_libraries\windows_x86\lib_debug\
-
-Afterwards the dlls-, header- and lib-files can be copied:
 
     xcopy "C:\boost_1_55_0\boost" "<ubitrack>\external_libraries\windows_x64\boost\include\boost\" /S /E
     xcopy "C:\boost_1_55_0\lib64-msvc-11.0\*.dll" "<ubitrack>\external_libraries\windows_x64\boost\bin\" /S /I /Y
