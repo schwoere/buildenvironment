@@ -197,10 +197,10 @@ First, you have to create the following directory structure:
 
 Afterwards the dlls-, header- and lib-files can be copied:
 
-    copy "C:\boost_1_55_0\boost" "<ubitrack>\external_libraries\windows_x64\boost\include\boost\"
-    copy "C:\boost_1_55_0\lib64-msvc-11.0\*.dll" "<ubitrack>\external_libraries\windows_x64\boost\bin\"
-    copy "C:\boost_1_55_0\lib64-msvc-11.0\*-vc110-mt-1_55.lib" "<ubitrack>\external_libraries\windows_x64\boost\lib\"
-    copy "C:\boost_1_55_0\lib64-msvc-11.0\*-vc110-mt-gd-1_55.lib" "<ubitrack>\external_libraries\windows_x64\boost\lib_debug\"
+    xcopy "C:\boost_1_55_0\boost" "<ubitrack>\external_libraries\windows_x64\boost\include\boost\" /S /E
+    xcopy "C:\boost_1_55_0\lib64-msvc-11.0\*.dll" "<ubitrack>\external_libraries\windows_x64\boost\bin\" /S /I /Y
+    xcopy "C:\boost_1_55_0\lib64-msvc-11.0\*-vc110-mt-1_55.lib" "<ubitrack>\external_libraries\windows_x64\boost\lib\" /S /I /Y
+    xcopy "C:\boost_1_55_0\lib64-msvc-11.0\*-vc110-mt-gd-1_55.lib" "<ubitrack>\external_libraries\windows_x64\boost\lib_debug\" /S /I /Y
 
 
 **Ubitrack-Compilation for Linux on Linux:**
