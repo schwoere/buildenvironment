@@ -195,7 +195,7 @@ However, if you have a different version to Visual Studio 10, you can use Lapack
 Therefore, downloaded [Boost](http://www.boost.org/) and extract it in a folder of your choice, e.g. C:\Boost.
 Start your "Developer Command Prompt for VS" and change to the Boost-Library location:
 
-    cd C:\Boost
+    cd C:\Boost\boost_1_55_0
     //build Boost in the current directory
     bootstrap
     b2 toolset=msvc --build-type=complete stage
@@ -207,6 +207,7 @@ After the compilation, you have to copy the header, library and dlls to the appr
     <ubitrack>\external_libraries\windows_x86\lib\*.lib
     <ubitrack>\external_libraries\windows_x86\lib_debug\*-gd-*.lib
 
+NOTE: For further information or if any problems occur have a look at the official guide which can be found at C:\Boost\boost_1_55_0\more\getting_started.html
 
 **Ubitrack-Compilation for Linux on Linux:**
 
@@ -313,7 +314,7 @@ The last library we need for the Ubitrack for Android is OpenCV for Android. The
 
 a. Using OpenCV for Android prebuilds
 
-Download the precompiled libraires from the official [OpenCV-Website](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder:
+Download the precompiled libraries from the official [OpenCV-Website](http://opencv.org/downloads.html). Extract the downloaded zip-archive on a destination of your choice (here in ~/Downloads) and copy the libraries and include files from the appropriate directory to the external\_libraries/android/opencv/ folder:
 
     cd path/to/external_libraries/
     mkdir -p linux_android/opencv/lib/
@@ -325,7 +326,7 @@ Download the precompiled libraires from the official [OpenCV-Website](http://ope
 
 b. Building OpenCV for Android
 
-Similar to the previous external\_libraries, clone and compile OpenCV4Android in the following way:
+Similar to the previous library builds, you have to clone and compile OpenCV4Android in the following way:
 
 NOTE: For further information or if any problems occur have a look at the official [Building OpenCV4Android-Guide](http://code.opencv.org/projects/opencv/wiki/Building_OpenCV4Android_from_trunk).
 

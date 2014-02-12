@@ -65,11 +65,7 @@ For a 64-bit architecture run the following script:
 And for a 32-bit architecture:
 
     sh build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=$HOME/android/android-ndk-toolchain 
-
-Android-SDK:
-
-In addition to the android-ndk-toolchain, we need the android-sdk for the compilation of Lapack which is described later on. Download and extract the [Android-SDK](http://developer.android.com/sdk/index.html) to a folder of your choice e.g. /home/\<username\>/android/.
-    
+   
 
 ###2. Setting up buildenvironment
 
@@ -129,7 +125,7 @@ This example will create the \<ubitrack\>/module/utcore directory and add utcore
 
 **Ubitrack-Compilation for Windows:**
 
-For Windows open a Git- or Command-Console, change to the <ubitrack> and execute
+For Windows open a Git- or Command-Console, change to the \<ubitrack\> folder and execute
 
     misc\setup\windows\addStandardModules.bat
 
@@ -191,23 +187,21 @@ This results in a structure that should look like this:
     <ubitrack>\external_libraries\windows_x64\
     <ubitrack>\external_libraries\windows_x86\
 
-However, if you have a different version to Visual Studio 10, you can use Lapack, OpenCV and Freeglut from the archive file above. For older versions of Visual Studio, have a look at the prebuilds which are can be downloaded at [PointClouds](http://pointclouds.org/downloads/windows.html) and copy the library files in the appropriate directories as shown after the explanation of the Boost-Build process. For Visual Studio 11 you have to compile Boost on your own:
-Therefore, downloaded [Boost](http://www.boost.org/) and extract it in a folder of your choice, e.g. C:\Boost.
-Start your "Developer Command Prompt for VS" and change to the Boost-Library location:
+However, if you have a different version to Visual Studio 10, you can use Lapack, OpenCV and Freeglut from the archive file above. For Visual Studio, have a look at the prebuilds which are can be downloaded from the official [Boost-Website](http://sourceforge.net/projects/boost/files/boost-binaries/). Alternatively, you can have a look at [PointClouds](http://pointclouds.org/downloads/windows.html). After you have downloaded and extracted Boost, you have to copy the header, library and dlls to the approproate directories. In case of Windows 64-bit, Boost 1.5.5 and Visual Studio 11.0, this can be done in the following way:
+First, you have to create the following directory structure:
 
-    cd C:\Boost\boost_1_55_0
-    //build Boost in the current directory
-    bootstrap
-    b2 toolset=msvc --build-type=complete stage
+    <ubitrack>\external_libraries\windows_x86\bin\
+    <ubitrack>\external_libraries\windows_x86\include\
+    <ubitrack>\external_libraries\windows_x86\lib\
+    <ubitrack>\external_libraries\windows_x86\lib_debug\
 
-After the compilation, you have to copy the header, library and dlls to the approproate directories. In case of Windows 64-bit, this will result in the folder-structure:
+Afterwards the dlls-, header- and lib-files can be copied:
 
-    <ubitrack>\external_libraries\windows_x86\bin\*.dll
-    <ubitrack>\external_libraries\windows_x86\include\boost\*.hpp
-    <ubitrack>\external_libraries\windows_x86\lib\*.lib
-    <ubitrack>\external_libraries\windows_x86\lib_debug\*-gd-*.lib
+    copy "C:\boost_1_55_0\boost" "<ubitrack>\external_libraries\windows_x64\boost\include\boost\"
+    copy "C:\boost_1_55_0\lib64-msvc-11.0\*.dll" "<ubitrack>\external_libraries\windows_x64\boost\bin\"
+    copy "C:\boost_1_55_0\lib64-msvc-11.0\*-vc110-mt-1_55.lib" "<ubitrack>\external_libraries\windows_x64\boost\lib\"
+    copy "C:\boost_1_55_0\lib64-msvc-11.0\*-vc110-mt-gd-1_55.lib" "<ubitrack>\external_libraries\windows_x64\boost\lib_debug\"
 
-NOTE: For further information or if any problems occur have a look at the official guide which can be found at C:\Boost\boost_1_55_0\more\getting_started.html
 
 **Ubitrack-Compilation for Linux on Linux:**
 
