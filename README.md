@@ -272,7 +272,7 @@ Afterwards link or copy the files to your these new folders:
     cp -r build/lib/libboost_thread-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_thread-mt.a
     cp -r build/lib/libboost_wserialization-gcc-mt-1_53.a /path/to/external_libraries/linux_android/boost/lib/libboost_wserialization-mt.a
 
-    cp -r build/include/boost-1_53/* /path/to/external_libraries/linux_android/boost/include/   
+    cp -r build/include/boost-1_53/* /path/to/external_libraries/linux_android/boost/include/
 
 
 LAPACK for Android:
@@ -369,11 +369,11 @@ Note: The first time this document may be empty.
     EXTERNAL_LIBRARIES = '/home/user/path/to/all/external_libraries/'
 
 
-Taking similar steps, you can easily extend Ubitrack with additional libraries for your own need.
+Taking similar steps, you can easily extend Ubitrack by additional libraries for your own need.
 
 ####4.2 Configure the libraries using command line options and library finder
 
-In this option the library configuration is done by appending parameters to a scons call similar to the previous section. This method gives you the ability to define your own library-folder structure as you may already have installed some of the libraries in different directories. Just like in the previous section, you can write the paramerters into a \<ubitrack\>\config.cache document, alternatively. For how to get/install the library files, have a look at section 4.1. 
+In this option, the library configuration is done by appending parameters to a scons call similar to the previous section. This method gives you the ability to define your own library-folder structure as you may already have installed some of the libraries in different directories. Just like in the previous section, you can write the parameters into a \<ubitrack\>\config.cache document, alternatively. For how to get/install the library files, have a look at section 4.1. 
 
 The basic syntax for these parameters looks like this:
 
@@ -382,58 +382,39 @@ The basic syntax for these parameters looks like this:
 **Examples:**
 
     {LIBNAME}: 
-
      - BOOST, OPENCV, LAPACK, GLUT
 
-
-
     {PARAMETER}: 
-
     - INCLUDEPATH (path to include files)
-
     - LIBPATH (path to library files)
-
     - LIBS (comma separated list of library files to link against)
-
     - DEFINES (C++ defines passed to the compiler )
 
-
-
     {PLATFORM}: 
-
     - x64 (64bit)
-
     - x86 (32bit)
-
     - android (armeabi-v7a)
 
-
-
     {CONFIGURATION}:
-
     - RELEASE (in this case empty) 
-
     - DEBUG
 
 **Full Examples for library configurations by a scons call:**
 
     scons BOOST_LIBPATH=/path/to/boost/lib
-
     scons BOOST_LIBPATH_DEBUG=/path/to/boost/lib_debug
-
     scons BOOST_LIBPATH_X86_DEBUG=/path/to/boost/x64/debug
-
     scons BOOST_LIBPATH_ANDROID=/path/to/boost/android/lib
-
     scons OPENCV_LIBS="opencv_stitching242.lib, opencv_legacy242.lib"
 
 ####4.3 Set everything by hand
 
 Run the scons command once. After that the library configurations are stored in \<ubitrack\>/config/configStorage. Edit the files and set Include/Library Paths and Libraries to link against. 
 
-Set havelib to true
+Set havelib to true and add "HAVE_{LIBNAME}" to CPPDEFINES:
 
-add "HAVE_{LIBNAME}" to CPPDEFINES
+    havelib = true
+    cppdefines = ["HAVE_LAPACK"]
 
 **Example:**
 
